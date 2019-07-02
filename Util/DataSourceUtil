@@ -13,9 +13,9 @@ import java.beans.PropertyVetoException;
 public class DataSourceUtil {
     public static DataSource getDataSourceWithDbcp() {
         BasicDataSource dbcp = new BasicDataSource();
-        dbcp.setUrl("jdbc:mysql://localhost:3306/frist01");
-        dbcp.setUsername("root");
-        dbcp.setPassword("root");
+        dbcp.setUrl("jdbc:mysql://localhost:3306/***");
+        dbcp.setUsername("***");
+        dbcp.setPassword("***");
         dbcp.setDriverClassName("com.mysql.jdbc.Driver");
         dbcp.setInitialSize(30);
         dbcp.setMaxActive(10);
