@@ -1,0 +1,44 @@
+package com.JB.com.JB.Service.impl;
+
+import com.JB.com.JB.Service.AccountService;
+import com.JB.dao.impl.AccountDaoImpl;
+import com.JB.dao.Account;
+import com.JB.util.JDBCUtil;
+
+/**
+ * @author JB
+ * @date 2019/7/2-15:46
+ */
+public class AccountServiceImpl implements AccountService {
+
+    @Override
+    public void transfer(int fromCardId, int toCardId, int money) {
+        AccountDaoImpl accountDao = new AccountDaoImpl();
+        //开启事务
+        JDBCUtil.beginTransaction();
+        //各种DML操作
+        Account fromAccount = accountDao.queryAccountByCardId(fromCardId);
+        Account toAccount = accountDao.queryAccountByCardId(toCardId);
+        if(fromAccount.getBalance()>money&&money>0){
+            //付款方-1000
+            int fromBalance=fromAccount.getBalance()-money;
+            fromAccount.setBalance(fromBalance);
+            fromAccount.setCardId(fromCardId);
+
+            accountDao.updateAccount(fromAccount);
+            //收款方+1000
+            int toBalance=toAccount.getBalance()+money;
+            toAccount.setBalance(toBalance);
+            toAccount.setCardId(toCardId);
+            accountDao.updateAccount(toAccount);
+
+            JDBCUtil.commitTransaction();
+            System.out.println("转账成功！");
+        }else{
+            System.out.println("余额不足！");
+            JDBCUtil.rollbackTransaction();
+        }
+        //结束事务
+        JDBCUtil.close();
+    }
+}
