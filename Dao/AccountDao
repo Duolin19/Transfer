@@ -1,0 +1,14 @@
+package com.JB.dao;
+
+/**
+ * @author JB
+ * @date 2019/6/30-16:28
+ */
+public interface AccountDao {
+    //根据卡号查询账户
+    Account queryAccountByCardId(int cardId);
+
+    //修改账户
+    void updateAccount(Account account);
+
+}
