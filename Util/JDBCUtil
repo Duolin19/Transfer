@@ -1,0 +1,80 @@
+package com.JB.util;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+/**
+ * @author JB
+ * @date 2019/6/28-20:37
+ */
+public class JDBCUtil {
+    private static  ThreadLocal<Connection> threadLocal=new ThreadLocal<>();
+    public static Connection getConnection(){
+        Connection conn = threadLocal.get();//获取tl中的变量，如果不够，会自动创建副本
+        if(conn==null){
+            try {
+                conn = DataSourceUtil.getDataSourceWithC3P0().getConnection();
+                threadLocal.set(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return conn;
+    }
+    //开启事务
+    public static void beginTransaction(){
+        //连接
+        Connection conn = getConnection();
+        try {
+            if(conn!=null)
+                conn.setAutoCommit(false);//手工提交（开启事务）
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    //正常，提交事务
+    public static void commitTransaction() {
+        Connection conn = getConnection();
+        try {
+            //所有的 对象.方法（）  全部需要排空
+            if(conn!=null)
+                conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //失败，回滚事务
+    public static void rollbackTransaction() {
+        Connection conn = getConnection();
+        try {
+            if(conn!=null)
+                conn.rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void close() {
+        Connection conn = getConnection();
+        if(conn!=null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        conn=null;
+        threadLocal.remove();
+
+    }
+}
