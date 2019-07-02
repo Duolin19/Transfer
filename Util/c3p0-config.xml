@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+    <default-config>
+        <!--如果要研究某个XML中可以设置哪些属性，可以找相关类的属性或者SetXxx()-->
+        <property  name="user">root</property>
+        <property name="password">root</property>
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/frist01</property>
+        <property name="ckeckoutTimeout">30000</property>
+
+    </default-config>
+    <named-config name="JB">
+        <property  name="user">root</property>
+        <property name="password">root</property>
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/frist01</property>
+        <property name="ckeckoutTimeout">10000</property>
+    </named-config>
+</c3p0-config>
