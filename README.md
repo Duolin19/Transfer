@@ -1,1 +1,5 @@
 # Transfer
+写了三层中的业务逻辑层和数据访问层，
+在数据库工具类中使用了数据源连接池和ThreadLocal，二者均能提高数据库的性能，BDUtil中实现了连接C3P0数据池，手动提交事务、回滚事务和关闭事务。
+数据访问层  AccountDaoImpl对连接池进行操作，AccountDaoImpl有两个方法：queryAccountByCardId和updateAccount，这两个方法均含有sql语句，可以cardId查找账号，根据账号更新账号余额。
+业务逻辑层  AccountServiceImpl调用AccountDao实现转账（付款者金额减少、收款者金额增加同时成立则成功）和事务回滚。
