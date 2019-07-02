@@ -1,0 +1,38 @@
+package com.JB.util;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
+
+import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
+
+/**
+ * @author JB
+ * @date 2019/6/26-16:56
+ */
+public class DataSourceUtil {
+    public static DataSource getDataSourceWithDbcp() {
+        BasicDataSource dbcp = new BasicDataSource();
+        dbcp.setUrl("jdbc:mysql://localhost:3306/frist01");
+        dbcp.setUsername("root");
+        dbcp.setPassword("root");
+        dbcp.setDriverClassName("com.mysql.jdbc.Driver");
+        dbcp.setInitialSize(30);
+        dbcp.setMaxActive(10);
+        return dbcp;
+    }
+    public static DataSource getDataSourceWithC3P0() throws PropertyVetoException {
+        ComboPooledDataSource c3p0=new ComboPooledDataSource();
+        c3p0.setDriverClass("com.mysql.jdbc.Driver");
+        c3p0.setUser("root");
+        c3p0.setJdbcUrl("jdbc:mysql://localhost:3306/frist01");
+        c3p0.setPassword("root");
+        c3p0.setMaxPoolSize(30);
+        c3p0.setMinPoolSize(10);
+        return c3p0;
+    }
+    public static DataSource getDataSourceWithC3P0ByXml()  {
+        ComboPooledDataSource c3p0=new ComboPooledDataSource("yanqun");
+        return c3p0;
+    }
+}
