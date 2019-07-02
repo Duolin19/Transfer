@@ -1,0 +1,37 @@
+import org.apache.commons.dbutils.handlers.BeanHandler;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+/**
+ * @author JB
+ * @date 2019/6/30-16:35
+ */
+public class AccountDaoImpl implements AccountDao {
+
+
+    @Override
+    public Account queryAccountByCardId(int cardId) {
+        QueryRunner runner = new QueryRunner();
+        Connection conn = JDBCUtil.getConnection();
+        Account account = null;//如果是手动提交：QueryRunner()和update()必须传入connection
+        try {
+            account = runner.query(conn, "select * from account where cardId=?", new BeanHandler<Account>(Account.class), cardId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return account;
+    }
+
+    public void updateAccount(Account account) {
+        QueryRunner runner = new QueryRunner();
+        Connection conn = JDBCUtil.getConnection();
+        try {
+            runner.update(conn,"update account set balance=? where cardId=?",new  Object[]{account.getBalance(),account.getCardId()});
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
